@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import AuthService from '../services/auth.service';
+import { useState, useEffect } from 'react';
+import authService from '../services/auth.service';
 
 function ProfilePage() {
   //const { user } = useContext(AuthContext);
@@ -7,10 +7,11 @@ function ProfilePage() {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
-    AuthService.getCurrentUser()
+    authService
+      .getCurrentUser()
       .then((response) => setProfile(response.data))
       .catch((error) => console.error('Error fetching the profile', error));
-  }, []);
+  }, [image]);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -18,13 +19,14 @@ function ProfilePage() {
 
   const handleImageUpload = () => {
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('photo', image);
 
-    AuthService.uploadPhoto(formData)
+    authService
+      .uploadPhoto(formData)
       .then((response) => {
-        // Assuming the response contains the image URL
-        const imageUrl = response.data.imageUrl;
-        setProfile({ ...profile, image: imageUrl });
+        const image = response.data.image;
+        authService.editUser({ image });
+        setProfile({ ...profile, image }); // Update the profile state with the new image URL
       })
       .catch((error) => {
         console.error('Error uploading the image', error);
@@ -39,10 +41,10 @@ function ProfilePage() {
           <h2>{profile.username}</h2>
           <p>{profile.campus}</p>
           <p>{profile.course}</p>
-          {profile.imageUrl && (
+          {profile.image && (
             <div>
               <img
-                src={profile.imageUrl}
+                src={profile.image}
                 alt="Profile"
                 style={{ width: '150px', height: '150px', borderRadius: '50%' }}
               />

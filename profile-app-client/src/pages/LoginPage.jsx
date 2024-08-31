@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 function LoginPage() {
-  const { authenticateUser, storeToken } = useContext(AuthContext);
+  const { storeToken, authenticateUser } =  useContext(AuthContext);
   const [loginInfo, setLoginInfo] = useState({ username: '', password: '' });
   const onChange = (e) => {
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
@@ -43,7 +43,7 @@ function LoginPage() {
           If you signup, you agree with all our terms and conditions where we
           can do whatever we want with the data!
         </p>
-        <button type="submit">Create the Account</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );

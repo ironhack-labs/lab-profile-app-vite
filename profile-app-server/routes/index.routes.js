@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/User.model');
+const fileUploader = require("../config/cloudinary.config");
 
 const router = express.Router();
 
@@ -36,12 +37,12 @@ router.get('/users', (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post('/upload', (req, res, next) => {
+router.post('/upload', fileUploader.single('photo'), (req, res, next) => {
   if (!req.file) {
-    next(new Error('No file uploaded!'));
-    return;
+    return next(new Error('No file uploaded!'));
   }
 
-  res.json({ imageUrl: req.file.path });
+  // Assuming you're saving the file locally and returning the path
+  res.json({ image: req.file.path });
 });
 module.exports = router;

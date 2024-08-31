@@ -6,14 +6,14 @@ class AuthService {
   constructor() {
     // Create a new instance of axios with a custom configuration
     this.api = axios.create({
-      baseURL: import.meta.env.SERVER_URL || 'http://localhost:5005'
+      baseURL: import.meta.env.SERVER_URL || 'http://localhost:5005',
       // We set our API's base URL so that all requests use the same base URL
     });
 
     // Automatically set JWT token in the headers for every request
-    this.api.interceptors.request.use(config => {
+    this.api.interceptors.request.use((config) => {
       // Retrieve the JWT token from the local storage
-      const storedToken = localStorage.getItem('authToken');
+      const storedToken = localStorage.getItem('token');
 
       if (storedToken) {
         config.headers = { Authorization: `Bearer ${storedToken}` };
@@ -23,13 +23,13 @@ class AuthService {
     });
   }
 
-  logIn = requestBody => {
+  logIn = (requestBody) => {
     return this.api.post('/auth/login', requestBody);
     // same as
     // return axios.post("http://localhost:5005/auth/login");
   };
 
-  signUp = requestBody => {
+  signUp = (requestBody) => {
     return this.api.post('/auth/signup', requestBody);
     // same as
     // return axios.post("http://localhost:5005/auth/singup");
@@ -41,10 +41,7 @@ class AuthService {
     // return axios.post("http://localhost:5005/auth/verify");
   };
 
-  uploadPhoto = file => {
-    const formData = new FormData();
-    formData.append('photo', file);
-
+  uploadPhoto = (formData) => {
     return this.api.post('/api/upload', formData);
   };
 
@@ -52,10 +49,9 @@ class AuthService {
     return this.api.get('/api/users');
   };
 
-  editUser = requestBody => {
+  editUser = (requestBody) => {
     return this.api.put('/api/users', requestBody);
   };
-
 }
 
 // Create one instance object

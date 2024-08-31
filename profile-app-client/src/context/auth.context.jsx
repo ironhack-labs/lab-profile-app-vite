@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import AuthService from '../services/auth.service';
+import authService from '../services/auth.service';
 
 const AuthContext = createContext();
 
@@ -14,10 +14,9 @@ const AuthProviderWrapper = ({ children }) => {
 
   const authenticateUser = () => {
     setIsLoading(true);
-    AuthService.verifyToken()
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
+    authService.verifyToken()
+      .then((response) => {
+        setUser(response.data);
         setIsLoggedIn(true);
         setIsLoading(false);
       });
