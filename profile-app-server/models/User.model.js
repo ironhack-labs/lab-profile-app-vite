@@ -3,20 +3,26 @@ const { Schema, model } = require("mongoose");
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
-    email: {
+    username: {
       type: String,
-      required: [true, "Email is required."],
+      required: [true, "Name is required."],
       unique: true,
-      lowercase: true,
       trim: true,
     },
     password: {
       type: String,
       required: [true, "Password is required."],
     },
-    name: {
+    campus: {
       type: String,
-      required: [true, "Name is required."],
+      enum: ["Madrid", "Barcelona", "Miami", "Paris", "Berlin", "Amsterdam", "México", "Sao Paulo", "Lisbon", "Remote"],
+    },
+    course: {
+      type: String,
+      enum: ["Web Dev", "UX/UI", "Data Analytics", "Cyber Security"],
+    },
+    image: {
+      type: String,
     },
   },
   {
